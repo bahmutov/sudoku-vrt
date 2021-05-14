@@ -51,10 +51,12 @@ export const Game = () => {
    * Creates a new game and initializes the state variables.
    */
   function _createNewGame(e) {
-    let [temporaryInitArray, temporarySolvedArray] = getUniqueSudoku(
-      difficulty,
-      e,
-    )
+    const [temporaryInitArray, temporarySolvedArray] =
+      // during testing, if the test specifies
+      // the initial and solved arrays
+      window.Cypress && window.__initArray && window.__solvedArray
+        ? [window.__initArray, window.__solvedArray]
+        : getUniqueSudoku(difficulty, e)
 
     setInitArray(temporaryInitArray)
     setGameArray(temporaryInitArray)

@@ -1,22 +1,25 @@
 /// <reference types="cypress" />
 
 describe('Sudoku', () => {
-  context('on mobile', () => {
-    beforeEach(() => {
-      cy.viewport(300, 600)
-      cy.visit('/')
-    })
+  it('shows the initial game', () => {
+    // stop the game clock
+    cy.clock()
 
-    it('plays on mobile', () => {
-      // on easy setting there are 45 filled cells at the start
-      cy.get('.game__cell--filled').should('have.length', 45)
-      cy.contains('.status__time', '00:00')
-      cy.contains('.status__difficulty-select', 'Easy')
-      cy.percySnapshot('mobile', {
-        widths: [300],
-        // hide all numbers when taking the snapshot
-        percyCSS: `.game__cell--filled { opacity: 0; }`,
+    // load the initial and solved game boards
+    cy.fixture('init-array.json').then((initialBoard) => {
+      cy.fixture('solved-array.json').then((solvedBoard) => {
+        cy.visit('/', {
+          onBeforeLoad(win) {
+            win.__initArray = initialBoard
+            win.__solvedArray = solvedBoard
+          },
+        })
       })
     })
+
+    // the board fixture has 45 filled cells at the start
+    cy.get('.game__cell--filled').should('have.length', 45)
+    cy.contains('.status__time', '00:00').should('be.visible')
+    cy.contains('.status__difficulty-select', 'Easy').should('be.visible')
   })
 })
