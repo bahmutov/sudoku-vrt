@@ -34,6 +34,7 @@
     ]
   },
   "devDependencies": {
+    "@visual-regression-tracker/agent-cypress": "4.8.1",
     "cypress": "7.3.0",
     "prettier": "2.0.5",
     "start-server-and-test": "1.11.0"

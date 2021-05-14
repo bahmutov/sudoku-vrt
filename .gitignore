@@ -26,3 +26,6 @@ yarn-error.log*
 __diff_output__
 cypress/videos
 cypress/screenshots
+.env
+db
+imageUploads/
